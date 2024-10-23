@@ -45,7 +45,7 @@ def open_file():
 
 
 def save_contact():
-    with open("password.csv", "w", newline="") as data:
+    with open("Data/password.csv", "w", newline="") as data:
         header = ['ID', 'Name', 'Password', 'Application', 'Sath']
         writer = csv.DictWriter(data, fieldnames=header)
         writer.writeheader()
