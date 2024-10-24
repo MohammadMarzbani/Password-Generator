@@ -36,7 +36,7 @@ def normal():
 
 def open_file():
     try:
-        with open("password.csv", "r") as data:
+        with open("Data/password.csv", "r") as data:
             show = csv.DictReader(data)
             for row in show:
                 passw.append(row)
@@ -141,14 +141,6 @@ def view_contact():
         print("You are not an admin!")
 
 
-# تابع جدید برای شمارش تعداد خطوط فایل CSV
-def count_csv_lines():
-    try:
-        with open("password.csv", "r") as file:
-            return sum(1 for line in file) - 1  # کم کردن یک خط به دلیل هدر فایل
-    except FileNotFoundError:
-        return 0  # اگر فایل پیدا نشود، برمی‌گردد 0
-
 
 open_file()
 while True:
@@ -166,5 +158,4 @@ while True:
         update_contact()
     elif choice == "4":
         print("Thank you for using my application")
-        print(f"Total number of passwords stored: {count_csv_lines()}")  # چاپ تعداد سطرها
         break
