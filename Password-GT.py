@@ -17,20 +17,23 @@ def generate_id():
 
 
 def hard():
+    characterlength = int(input("How many characters do you want? "))
     t = string.ascii_letters + string.digits + string.punctuation
-    generate = "".join(random.sample(t, 16))
+    generate = "".join(random.sample(t,  characterlength))
     return generate
 
 
 def easy():
+    characterlength = int(input("How many characters do you want? "))
     t = string.ascii_letters
-    generate = "".join(random.sample(t, 16))
+    generate = "".join(random.sample(t, characterlength))
     return generate
 
 
 def normal():
+    characterlength = int(input("How many characters do you want? "))
     t = string.ascii_letters + string.digits
-    generate = "".join(random.sample(t, 16))
+    generate = "".join(random.sample(t, characterlength))
     return generate
 
 
@@ -55,7 +58,7 @@ def save_password():
 def create_password():
     print("Add Password List Menu:")
     name = input("Name: ").strip()
-    user_password = input("What is your password password level? (Hard / Normal / Easy): ").strip()
+    user_password = input("What is your password password level? (1-Hard / 2-Normal / 3-Easy): ").strip()
     create_password_level = []
     if user_password == "Hard" or user_password == "hard" or user_password == "1":
         create_password_level = hard()
@@ -98,13 +101,13 @@ def update_password():
                 print(f"Application: {pw['Application']} ")
                 print("-" * 31)
 
-                ask = input("Which to change: (Name / Password / Application) ").strip()
+                ask = input("Which to change: (1-Name / 2-Password / 3-Application) ").strip()
 
-                if ask == "Name":
+                if ask == "Name" or ask == "name" or ask == "1":
                     pw['Name'] = input("New Name: ")
                     print(f"User Name Changed Successfully")
                     print(f"New Name: {pw['Name']} ")
-                elif ask == "Password":
+                elif ask == "Password" or ask == "password" or ask == "2":
                     user_password_level = ["Hard", "Normal", "Easy"]
                     password_for_update = input("Please Insert Level Password: (1-Hard / 2-Normal / 3-Easy) ").strip()
                     if password_for_update == "Hard" or password_for_update == "hard" or password_for_update == "1":
@@ -125,7 +128,7 @@ def update_password():
                     pw['PasswordLevel'] = password_for_update.capitalize()
 
 
-                elif ask == "Application":
+                elif ask == "Application" or ask == "application" or ask == "3":
                     pw['Application'] = input("New Application: ")
 
                 else:
@@ -134,7 +137,6 @@ def update_password():
                 return
     else:
         print("You are not an admin!")
-        print("Contact Not Found")
 
 
 def view_password():
@@ -163,12 +165,12 @@ while True:
     print("3.Update Password list (for admin).")
     print("4.Exit")
     choice = input("Enter Your Choice: ")
-    if choice == "1":
+    if choice == "1" or choice == "Create Password":
         create_password()
-    elif choice == "2":
+    elif choice == "2" or choice == "View Password":
         view_password()
-    elif choice == "3":
+    elif choice == "3" or choice == "Update Password":
         update_password()
-    elif choice == "4":
+    elif choice == "4" or choice == "Exit":
         print("Thank you for using my application")
         break
