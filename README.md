@@ -6,7 +6,9 @@
 
 1- Creating an email system and adding it to the password generation section (the rest of the sections will be provided soon).
 2- Adding a time system to the password generation and email sending section.
-Description of this update:
+
+## Description of this update:
+
 From now on, when creating a password, you will be asked for an email, and in addition to saving it in a file (CSV), all password information will be sent to the registered email.
 When creating a password, the password creation time is saved in a file (CSV) and emailed to you.
 
