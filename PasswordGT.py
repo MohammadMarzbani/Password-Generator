@@ -95,7 +95,7 @@ def create_password():
     save_password()
     print(f"Password for User: {name} Added Successfully with ID: {id_}")
     subject = f"Your password has been generated sir {name}"
-    body = f"Creation time:{time()}\nID {id_}\nName: {name} \nPassword: '{create_password_level}' \nApplication: {application} \nPasswordLevel:{user_password.capitalize()}\nGmail: {user_email}"
+    body = f"Creation time:{time()}\nID {id_}\nName: {name} \nPassword: {create_password_level} \nApplication: {application} \nPasswordLevel:{user_password.capitalize()}\nGmail: {user_email}"
     send_smtp_email(subject,body,user_email)
 
 
