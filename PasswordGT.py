@@ -89,7 +89,7 @@ def create_password():
     user_email = input("Enter your email: ").strip()
     id_ = generate_id()
 
-    contact = {"ID": id_,'Time':time() ,"Name": name, "Password": create_password_level, "Application": application, "PasswordLevel": user_password.capitalize() ,"Gmail":user_email}
+    contact = {"ID": id_,"CreationTime":time() ,"Name": name, "Password": create_password_level, "Application": application, "PasswordLevel": user_password.capitalize() ,"Gmail":user_email}
 
     passwordlist.append(contact)
     save_password()
