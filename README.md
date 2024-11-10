@@ -5,6 +5,7 @@
 ## Version 0.3 (Big Update):
 
 1- Creating an email system and adding it to the password generation section (the rest of the sections will be provided soon).
+
 2- Adding a time system to the password generation and email sending section.
 
 ## Description of this update:
