@@ -100,10 +100,10 @@ def create_password():
 
 
 def send_smtp_email(subject, body,gmail):
-    smtp_server = email['Host'] #Enter your host address
+    smtp_server = email['Host']
     smtp_port = 465
-    username = email['user'] #Enter username for email
-    password = email['password'] #Enter password
+    username = email['user']
+    password = email['password']
 
     msg = MIMEMultipart()
     msg['From'] = username

@@ -12,7 +12,7 @@ When creating a password, the password creation time is saved in a file (CSV) an
 
 # Note:
 
-## Change the file (config.py) to make the email system work for you.
+Change the file (config.py) to make the email system work for you.
 
 ## Version 0.2:
 
