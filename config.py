@@ -1,5 +1,5 @@
 email = {
-    'Host':'Hostaddress', #Example: Mail.google.com
-    'user':'Username', #Example: Mail@google.com
-    'password':'Password'
+    'Host':'mail.phpself.ir',
+    'user':'mail@phpself.ir',
+    'password':'$@viorking'
 }
