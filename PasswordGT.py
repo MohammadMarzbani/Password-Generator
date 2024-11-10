@@ -200,9 +200,7 @@ def view_password():
 
 open_file()
 while True:
-
-    print("time:",time())
-    print("Hello to Generate Password Application")
+    print("Hello to Generate Password Application \nTime:",time())
     print("1.Create Password.")
     print("2.View Password list (for admin).")
     print("3.Update Password list (for admin).")
