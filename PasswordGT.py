@@ -2,12 +2,22 @@
 import random
 import string
 import csv
-from mail import send_smtp_email
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from config import email
+from datetime import datetime
+import pytz
 
 passwordlist = []
 password_level = []
 user_password = []
 
+def time():
+    timezone = pytz.timezone('Asia/Tehran')
+    time = datetime.now(timezone)
+    duration = time.strftime("%Y-%m-%d %H:%M:%S")
+    return duration
 
 def generate_id():
     if passwordlist:
@@ -50,7 +60,7 @@ def open_file():
 
 def save_password():
     with open("Data/password.csv", "w", newline="") as data:
-        header = ['ID', 'Name', 'Password', 'Application', 'PasswordLevel', 'Gmail']
+        header = ['ID','CreationTime', 'Name', 'Password', 'Application', 'PasswordLevel', 'Gmail']
         writer = csv.DictWriter(data, fieldnames=header)
         writer.writeheader()
         writer.writerows(passwordlist)
@@ -76,16 +86,44 @@ def create_password():
     else:
         print("Invalid password password_level!")
     application = input("Application: ").strip()
-    user_email = input("Email your email: ").strip()
+    user_email = input("Enter your email: ").strip()
     id_ = generate_id()
 
-    contact = {"ID": id_, "Name": name, "Password": create_password_level, "Application": application, "PasswordLevel": user_password.capitalize() ,"Gmail":user_email}
+    contact = {"ID": id_,'Time':time() ,"Name": name, "Password": create_password_level, "Application": application, "PasswordLevel": user_password.capitalize() ,"Gmail":user_email}
 
     passwordlist.append(contact)
     save_password()
     print(f"Password for User: {name} Added Successfully with ID: {id_}")
-    send_smtp_email("Your password is created",f"Your password created: \nyour name: {contact[name]}\nYour password: {contact[create_password_level]}\nApplication: {application}\nPasswordLevel: {user_password.capitalize()}")
+    subject = f"Your password has been generated sir {name}"
+    body = f"Creation time:{time()}\nID {id_}\nName: {name} \nPassword: '{create_password_level}' \nApplication: {application} \nPasswordLevel:{user_password.capitalize()}\nGmail: {user_email}"
+    send_smtp_email(subject,body,user_email)
 
+
+def send_smtp_email(subject, body,gmail):
+    smtp_server = email['Host'] #Enter your host address
+    smtp_port = 465
+    username = email['user'] #Enter username for email
+    password = email['password'] #Enter password
+
+    msg = MIMEMultipart()
+    msg['From'] = username
+    msg['To'] = gmail
+    msg['Subject'] = subject
+
+    body = body
+    msg.attach(MIMEText(body, 'plain'))
+    server = None
+    try:
+
+        server = smtplib.SMTP_SSL(smtp_server, smtp_port)
+        server.login(username, password)
+        server.send_message(msg)
+        print("Email sent successfully!")
+    except Exception as e:
+        print(f"Failed to send email: {e}")
+    finally:
+        if server is not None:
+            server.quit()
 
 def update_password():
     admin = input("Are you an admin? Please enter your username: ")
@@ -162,6 +200,8 @@ def view_password():
 
 open_file()
 while True:
+
+    print("Current time in Tehran:",time())
     print("Hello to Generate Password Application")
     print("1.Create Password.")
     print("2.View Password list (for admin).")
