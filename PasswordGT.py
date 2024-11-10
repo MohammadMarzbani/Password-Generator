@@ -2,6 +2,7 @@
 import random
 import string
 import csv
+from mail import send_smtp_email
 
 passwordlist = []
 password_level = []
@@ -49,7 +50,7 @@ def open_file():
 
 def save_password():
     with open("Data/password.csv", "w", newline="") as data:
-        header = ['ID', 'Name', 'Password', 'Application', 'PasswordLevel']
+        header = ['ID', 'Name', 'Password', 'Application', 'PasswordLevel', 'Gmail']
         writer = csv.DictWriter(data, fieldnames=header)
         writer.writeheader()
         writer.writerows(passwordlist)
@@ -75,14 +76,15 @@ def create_password():
     else:
         print("Invalid password password_level!")
     application = input("Application: ").strip()
-
+    user_email = input("Email your email: ").strip()
     id_ = generate_id()
 
-    contact = {"ID": id_, "Name": name, "Password": create_password_level, "Application": application, "PasswordLevel": user_password.capitalize()}
+    contact = {"ID": id_, "Name": name, "Password": create_password_level, "Application": application, "PasswordLevel": user_password.capitalize() ,"Gmail":user_email}
 
     passwordlist.append(contact)
     save_password()
     print(f"Password for User: {name} Added Successfully with ID: {id_}")
+    send_smtp_email("Your password is created",f"Your password created: \nyour name: {contact[name]}\nYour password: {contact[create_password_level]}\nApplication: {application}\nPasswordLevel: {user_password.capitalize()}")
 
 
 def update_password():
@@ -151,6 +153,7 @@ def view_password():
             print(f"Password: {pw['Password']} ")
             print(f"Application: {pw['Application']} ")
             print(f"password level: {pw['password_level']} ")
+            print(f"Gmail: {pw['Gmail']} ")
             print("-" * 30)
     else:
         print("You are not an admin!")
