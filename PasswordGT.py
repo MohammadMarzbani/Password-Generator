@@ -201,7 +201,7 @@ def view_password():
 open_file()
 while True:
 
-    print("Current time in Tehran:",time())
+    print("time:",time())
     print("Hello to Generate Password Application")
     print("1.Create Password.")
     print("2.View Password list (for admin).")
