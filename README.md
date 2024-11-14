@@ -1,6 +1,9 @@
 # Password-Generator
 
 ---
+## Version 0.4 (Small update):
+
+The system for registering admin changes in passwords was added to the project
 
 ## Version 0.3 (Big Update):
 
