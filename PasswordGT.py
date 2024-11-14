@@ -77,7 +77,7 @@ def save_edit():
 
 def save_password():
     with open("Data/password.csv", "w", newline="") as data:
-        header = ['ID','CreationTime', 'Name', 'Password', 'Application', 'PasswordLevel', 'Gmail', 'Log']
+        header = ['ID','CreationTime', 'Name', 'Password', 'Application', 'PasswordLevel', 'Gmail']
         writer = csv.DictWriter(data, fieldnames=header)
         writer.writeheader()
         writer.writerows(passwordlist)
@@ -167,6 +167,9 @@ def update_password():
                     contactedit = {"ID":editid ,"PasswordID":pw['ID'] , "EditTime": time(), "Admin": admin, "Newname": pw['Name'],"NewApplication":"Not Edit this time","NewPassword":"Not Edit this time"}
                     edit.append(contactedit)
                     save_edit()
+                    subject = "Your password has been Changed."
+                    body = f"Hellow \n Password ID <<{pw['ID'] }>> Was changed Successfully\n New Name >> {pw['Name']}"
+                    send_smtp_email(subject, body, pw['Gmail'])
                 elif ask == "Password" or ask == "password" or ask == "2":
                     user_password_level = ["Hard", "Normal", "Easy"]
                     password_for_update = input("Please Insert Level Password: (1-Hard / 2-Normal / 3-Easy) ").strip()
@@ -191,6 +194,9 @@ def update_password():
                     contactedit = {"ID":editid ,"PasswordID":pw['ID'] , "EditTime": time(), "Admin": admin,"Newname": "Not Edit this time","NewApplication":"Not Edit this time", "NewPassword": pw['Password']}
                     edit.append(contactedit)
                     save_edit()
+                    subject = "Your password has been Changed."
+                    body = f"Hellow \n Password ID <<{pw['ID'] }>> Was changed Successfully\n New Password >> {pw['Password']}"
+                    send_smtp_email(subject, body, pw['Gmail'])
 
                 elif ask == "Application" or ask == "application" or ask == "3":
                     pw['Application'] = input("New Application: ")
@@ -198,6 +204,10 @@ def update_password():
                     contactedit = {"ID":editid ,"PasswordID":pw['ID'] , "EditTime": time(), "Admin": admin,"Newname": "Not Edit this time", "NewApplication": pw['Application'], "NewPassword":"Not Edit this time"}
                     edit.append(contactedit)
                     save_edit()
+                    subject = "Your password has been Changed."
+                    body = f"Hellow \n Password ID <<{pw['ID'] }>> Was changed Successfully\n New Application >> {pw['Application']}"
+                    send_smtp_email(subject, body, pw['Gmail'])
+
                 else:
                     print("Error: Wrong parameter (Name / Password / Application)")
                 save_password()
