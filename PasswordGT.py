@@ -70,7 +70,7 @@ def open_log():
 
 def save_edit():
     with open("Data/Adminedit.csv", "w", newline="") as data:
-        header = ['ID','PasswordID','EditTime', 'Admin', 'Newname']
+        header = ['ID','PasswordID','EditTime', 'Admin', 'Newname', 'NewApplication','NewPassword']
         writer = csv.DictWriter(data, fieldnames=header)
         writer.writeheader()
         writer.writerows(edit)
@@ -164,7 +164,7 @@ def update_password():
                     print(f"User Name Changed Successfully")
                     print(f"New Name: {pw['Name']} ")
                     editid =generate_editid()
-                    contactedit = {"ID":editid ,"PasswordID":pw['ID'] , "EditTime": time(), "Admin": admin, "Newname": pw['Name']}
+                    contactedit = {"ID":editid ,"PasswordID":pw['ID'] , "EditTime": time(), "Admin": admin, "Newname": pw['Name'],"NewApplication":"Not Edit this time","NewPassword":"Not Edit this time"}
                     edit.append(contactedit)
                     save_edit()
                 elif ask == "Password" or ask == "password" or ask == "2":
@@ -187,10 +187,17 @@ def update_password():
                     pw['Password'] = user_password_level
                     pw['PasswordLevel'] = password_for_update.capitalize()
 
+                    editid =generate_editid()
+                    contactedit = {"ID":editid ,"PasswordID":pw['ID'] , "EditTime": time(), "Admin": admin,"Newname": "Not Edit this time","NewApplication":"Not Edit this time", "NewPassword": pw['Password']}
+                    edit.append(contactedit)
+                    save_edit()
 
                 elif ask == "Application" or ask == "application" or ask == "3":
                     pw['Application'] = input("New Application: ")
-
+                    editid =generate_editid()
+                    contactedit = {"ID":editid ,"PasswordID":pw['ID'] , "EditTime": time(), "Admin": admin,"Newname": "Not Edit this time", "NewApplication": pw['Application'], "NewPassword":"Not Edit this time"}
+                    edit.append(contactedit)
+                    save_edit()
                 else:
                     print("Error: Wrong parameter (Name / Password / Application)")
                 save_password()
