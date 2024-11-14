@@ -12,7 +12,7 @@ import pytz
 passwordlist = []
 password_level = []
 user_password = []
-
+edit = []
 def time():
     timezone = pytz.timezone('Asia/Tehran')
     time = datetime.now(timezone)
@@ -25,7 +25,12 @@ def generate_id():
         return str(last_id + 1)
     else:
         return "1"
-
+def generate_editid():
+    if edit:
+        last_id = int(edit[-1]['ID'])
+        return str(last_id + 1)
+    else:
+        return "1"
 
 def hard():
     characterlength = int(input("How many characters do you want? "))
@@ -33,20 +38,17 @@ def hard():
     generate = "".join(random.sample(t,  characterlength))
     return generate
 
-
 def easy():
     characterlength = int(input("How many characters do you want? "))
     t = string.ascii_letters
     generate = "".join(random.sample(t, characterlength))
     return generate
 
-
 def normal():
     characterlength = int(input("How many characters do you want? "))
     t = string.ascii_letters + string.digits
     generate = "".join(random.sample(t, characterlength))
     return generate
-
 
 def open_file():
     try:
@@ -57,20 +59,35 @@ def open_file():
     except FileNotFoundError:
         print("File not found")
 
+def open_log():
+    try:
+        with open("Data/Adminedit.csv", "r") as data:
+            show = csv.DictReader(data)
+            for row in show:
+                edit.append(row)
+    except FileNotFoundError:
+        print("File not found")
+
+def save_edit():
+    with open("Data/Adminedit.csv", "w", newline="") as data:
+        header = ['ID','PasswordID','EditTime', 'Admin', 'Newname']
+        writer = csv.DictWriter(data, fieldnames=header)
+        writer.writeheader()
+        writer.writerows(edit)
 
 def save_password():
     with open("Data/password.csv", "w", newline="") as data:
-        header = ['ID','CreationTime', 'Name', 'Password', 'Application', 'PasswordLevel', 'Gmail']
+        header = ['ID','CreationTime', 'Name', 'Password', 'Application', 'PasswordLevel', 'Gmail', 'Log']
         writer = csv.DictWriter(data, fieldnames=header)
         writer.writeheader()
         writer.writerows(passwordlist)
-
 
 def create_password():
     print("Add Password List Menu:")
     name = input("Name: ").strip()
     user_password = input("What is your password password level? (1-Hard / 2-Normal / 3-Easy): ").strip()
     create_password_level = []
+
     if user_password == "Hard" or user_password == "hard" or user_password == "1":
         create_password_level = hard()
         if user_password == "1":
@@ -98,7 +115,6 @@ def create_password():
     body = f"Creation time:{time()}\nID >> {id_}\nName: {name} \nPassword: {create_password_level} \nApplication: {application} \nPasswordLevel:{user_password.capitalize()}\nGmail: {user_email}"
     send_smtp_email(subject,body,user_email)
 
-
 def send_smtp_email(subject, body,gmail):
     smtp_server = email['Host']
     smtp_port = 465
@@ -113,8 +129,8 @@ def send_smtp_email(subject, body,gmail):
     body = body
     msg.attach(MIMEText(body, 'plain'))
     server = None
-    try:
 
+    try:
         server = smtplib.SMTP_SSL(smtp_server, smtp_port)
         server.login(username, password)
         server.send_message(msg)
@@ -147,6 +163,10 @@ def update_password():
                     pw['Name'] = input("New Name: ")
                     print(f"User Name Changed Successfully")
                     print(f"New Name: {pw['Name']} ")
+                    editid =generate_editid()
+                    contactedit = {"ID":editid ,"PasswordID":pw['ID'] , "EditTime": time(), "Admin": admin, "Newname": pw['Name']}
+                    edit.append(contactedit)
+                    save_edit()
                 elif ask == "Password" or ask == "password" or ask == "2":
                     user_password_level = ["Hard", "Normal", "Easy"]
                     password_for_update = input("Please Insert Level Password: (1-Hard / 2-Normal / 3-Easy) ").strip()
@@ -175,6 +195,7 @@ def update_password():
                     print("Error: Wrong parameter (Name / Password / Application)")
                 save_password()
                 return
+
     else:
         print("You are not an admin!")
 
@@ -196,16 +217,17 @@ def view_password():
     else:
         print("You are not an admin!")
 
-
-
 open_file()
+
 while True:
     print("Hello to Generate Password Application \nTime:",time())
     print("1.Create Password.")
     print("2.View Password list (for admin).")
     print("3.Update Password list (for admin).")
     print("4.Exit")
+
     choice = input("Enter Your Choice: ")
+
     if choice == "1" or choice == "Create Password":
         create_password()
     elif choice == "2" or choice == "View Password":
