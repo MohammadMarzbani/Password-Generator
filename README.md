@@ -1,6 +1,14 @@
 # Password-Generator
 
 ---
+
+## Version 0.5 (Small update):
+
+Password change report added by admin (Data\Adminedit.csv)
+New information will be emailed after each change
+
+---
+
 ## Version 0.4 (Small update):
 
 The system for registering admin changes in passwords was added to the project
