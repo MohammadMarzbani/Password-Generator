@@ -5,6 +5,7 @@
 ## Version 0.5 (Small update):
 
 Password change report added by admin (Data\Adminedit.csv)
+
 New information will be emailed after each change
 
 ---
